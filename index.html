@@ -71,6 +71,7 @@ nav.dots a.on{background:var(--poppy)}
 .hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:opacity .4s}
 
 .map{height:min(62svh,560px);width:100%;border:1px solid var(--line);background:#0e0d0b;margin-top:22px}
+.leaflet-tile-pane{filter:grayscale(1) invert(1) brightness(.85) contrast(.85) sepia(.25)}
 .legend{display:flex;flex-wrap:wrap;gap:18px;font-size:.85rem;color:var(--muted);margin-top:12px}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;vertical-align:middle}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#221e19;color:var(--ink);border-radius:2px}
@@ -376,9 +377,9 @@ nav.dots a.on{background:var(--poppy)}
 (function(){
   if(!window.L)return;
   var C={fact:'#7fa37a',likely:'#c9a04e',battle:'#c0392b',ref:'#8d8676'};
-  var tiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-  var attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
-  function mk(id){var m=L.map(id,{scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false});L.tileLayer(tiles,{attribution:attr,maxZoom:12,subdomains:'abcd'}).addTo(m);return m;}
+  var tiles='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  function mk(id){var m=L.map(id,{scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false});L.tileLayer(tiles,{attribution:attr,maxZoom:12}).addTo(m);return m;}
   function pt(m,p){var r=p.k==='ref'?4:7;var c=L.circleMarker([p.lat,p.lng],{radius:r,color:'#14120f',weight:2,fillColor:C[p.k],fillOpacity:1}).addTo(m);
     if(p.t)c.bindPopup('<small>'+p.w+'</small><b>'+p.n+'</b>'+p.t);
     c.bindTooltip(p.n,{permanent:!(p.hideSmall&&window.innerWidth<700),direction:p.dir||'right',offset:p.dir==='left'?[-9,0]:p.dir==='top'?[0,-9]:p.dir==='bottom'?[0,9]:[9,0],className:'lbl'});return c;}
