@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pte. George Frederick Aiken · In Remembrance</title>
+<meta name="description" content="In remembrance of Private George Frederick 'Fred' Aiken, signaller, 4th Canadian Infantry Battalion, Canadian Expeditionary Force, 1915–1919.">
+<meta property="og:title" content="Pte. George Frederick Aiken · In Remembrance">
+<meta property="og:description" content="Signaller, 4th Canadian Infantry Battalion, CEF. Enlisted 1915, served in France 1918, came home 1919.">
+<meta property="og:image" content="img/fred.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+:root{
+  --bg:#14120f; --panel:#1d1a16; --ink:#ece4d6; --muted:#a79d8c; --line:#3a342b;
+  --poppy:#c0392b; --khaki:#b5a06a; --fact:#7fa37a; --likely:#c9a04e;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+section{min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;align-items:center;padding:72px 24px;border-bottom:1px solid var(--line)}
+.wrap{width:100%;max-width:1060px;margin:0 auto}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.split.narrow-img{grid-template-columns:1.25fr .75fr}
+h1,h2{font-family:var(--serif);font-weight:600;line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.6rem,6.5vw,4.6rem)}
+h2{font-size:clamp(2rem,4.5vw,3.1rem);margin-bottom:22px}
+p{margin:0 0 16px;max-width:60ch}
+.eyebrow{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki);margin-bottom:14px;font-weight:600}
+.lede{font-family:var(--serif);font-size:clamp(1.3rem,2.4vw,1.65rem);font-style:italic;color:var(--ink);line-height:1.35}
+.muted{color:var(--muted)}
+figure{margin:0}
+figure img{display:block;width:100%;height:auto;border:1px solid var(--line);background:#000}
+.portrait img{border:10px solid #e9e2d2;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:76svh;object-fit:cover;width:auto;max-width:100%;margin:0 auto}
+.doc img{box-shadow:0 18px 44px rgba(0,0,0,.55);max-height:74svh;width:auto;max-width:100%;margin:0 auto}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:10px;text-align:center}
+.poppy{width:14px;height:14px;border-radius:50%;background:var(--poppy);display:inline-block;box-shadow:inset 0 0 0 4px var(--poppy),inset 0 0 0 7px #1a0d0b;vertical-align:middle;margin-right:10px}
+.rule{width:64px;height:2px;background:var(--poppy);margin:26px 0}
+dl.facts{display:grid;grid-template-columns:auto 1fr;gap:8px 22px;margin:0}
+dl.facts dt{color:var(--muted);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;padding-top:4px;white-space:nowrap}
+dl.facts dd{margin:0}
+.tag{display:inline-block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid currentColor;margin-right:8px;white-space:nowrap}
+.tag.fact{color:var(--fact)} .tag.likely{color:var(--likely)}
+ol.line{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+ol.line li{position:relative;padding:0 0 22px 26px}
+ol.line li:last-child{padding-bottom:0}
+ol.line li::before{content:"";position:absolute;left:-7px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--khaki)}
+ol.line li.key::before{background:var(--poppy);border-color:var(--poppy)}
+ol.line .when{display:block;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--khaki);font-weight:600}
+ol.line .what{display:block}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);padding:22px}
+.card b{display:block;font-family:var(--serif);font-size:2.1rem;line-height:1;margin-bottom:8px;color:var(--ink);font-weight:600}
+.card span{color:var(--muted);font-size:.95rem}
+table{width:100%;border-collapse:collapse;font-size:.98rem}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{color:var(--khaki);white-space:nowrap;font-weight:600;width:1%;padding-right:22px}
+a{color:var(--khaki)}
+.cover{text-align:left}
+.cover .sub{font-size:1.15rem;color:var(--muted);margin-top:18px}
+.closing{text-align:center}
+.closing p{margin-left:auto;margin-right:auto}
+.closing .verse{font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3vw,2rem);line-height:1.4}
+nav.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:5}
+nav.dots a{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+nav.dots a.on{background:var(--poppy)}
+.hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:opacity .4s}
+
+.map{height:min(62svh,560px);width:100%;border:1px solid var(--line);background:#0e0d0b;margin-top:22px}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:.85rem;color:var(--muted);margin-top:12px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;vertical-align:middle}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#221e19;color:var(--ink);border-radius:2px}
+.leaflet-popup-content{font-family:var(--sans);font-size:.9rem;line-height:1.45;margin:12px 14px}
+.leaflet-popup-content b{font-family:var(--serif);font-size:1.15rem;display:block;margin-bottom:2px}
+.leaflet-popup-content small{color:var(--khaki);letter-spacing:.1em;text-transform:uppercase;font-size:.7rem;display:block;margin-bottom:4px}
+.leaflet-container a{color:var(--khaki)}
+.leaflet-tooltip.lbl{background:none;border:0;box-shadow:none;color:var(--ink);font-family:var(--sans);font-size:.78rem;font-weight:600;text-shadow:0 0 4px #000,0 0 4px #000,0 0 2px #000;padding:0}
+.leaflet-tooltip.lbl::before{display:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.ctx{list-style:none;margin:0;padding:0}
+.ctx li{display:grid;grid-template-columns:118px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:.98rem}
+.ctx .d{color:var(--khaki);font-weight:600;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.ctx .h{color:var(--muted);display:block;font-size:.9rem}
+.cards.four{grid-template-columns:repeat(4,1fr)}
+.src{font-size:.82rem;color:var(--muted);margin-top:18px;max-width:none}
+@media (max-width:820px){.two{grid-template-columns:1fr}.cards.four{grid-template-columns:1fr 1fr}.ctx li{grid-template-columns:1fr;gap:2px}.map{height:60svh}}
+@media (max-width:820px){
+  body{font-size:17px}
+  section{padding:56px 20px}
+  .split,.split.narrow-img{grid-template-columns:1fr;gap:32px}
+  .cards{grid-template-columns:1fr}
+  nav.dots{display:none}
+  .portrait img{max-height:62svh}
+  dl.facts{grid-template-columns:1fr;gap:2px}
+  dl.facts dd{margin-bottom:10px}
+  td:first-child{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{section{min-height:auto;page-break-inside:avoid}nav.dots,.hint{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+
+<section id="s1" class="cover">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow"><span class="poppy"></span>In Remembrance</div>
+      <h1>George Frederick “Fred” Aiken</h1>
+      <div class="rule"></div>
+      <p class="lede">Private and signaller, No. 802391<br>4th Canadian Infantry Battalion<br>Canadian Expeditionary Force, 1915–1919</p>
+      <p class="sub">Born in St. Thomas, Ontario, in 1894. A railroad brakeman who crossed the Atlantic, fought through the last year of the Great War, and came home.</p>
+    </div>
+    <figure class="portrait">
+      <img src="img/fred.jpg" alt="Studio portrait of Fred Aiken as a young man, seated in a carved chair, wearing a dark suit">
+      <figcaption>Fred as a young man. Family photograph.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">Before the war</div>
+      <h2>A brakeman from St. Thomas</h2>
+      <p>Fred was born on February 10, 1894, in St. Thomas, Elgin County, a railway town. By 1915 he was working the railroads himself and living in London, Ontario.</p>
+      <p class="muted">Everything on this page comes from his army service file, which records him the day he walked in to enlist.</p>
+    </div>
+    <dl class="facts">
+      <dt>Parents</dt><dd>George Aiken and Sarah Elizabeth Aiken, 19 Picton St., London</dd>
+      <dt>Home</dt><dd>15 Rathmine St., London, Ontario</dd>
+      <dt>Trade</dt><dd>Railroad brakeman</dd>
+      <dt>Status</dt><dd>Single, 21 years old</dd>
+      <dt>Church</dt><dd>Church of England</dd>
+      <dt>Build</dt><dd>5 ft 9 in, 135 lbs</dd>
+      <dt>Looks</dt><dd>Dark complexion, hazel eyes, brown hair</dd>
+      <dt>Marks</dt><dd>Scar on the right hip from a pre-war accident</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap split narrow-img">
+    <div>
+      <div class="eyebrow">December 21, 1915</div>
+      <h2>He signs up</h2>
+      <p>Four days before Christmas, Fred enlisted in London with the 135th (Middlesex) Battalion and was passed fit for overseas service. He swore the oath and signed his name twice: <em>G. F. Aiken</em>.</p>
+      <p>His only earlier service was two weeks with the 15th Field Ambulance of the Army Medical Corps.</p>
+      <p>From then until he sailed, he trained in Ontario. When he went overseas he arranged for <strong>$20 of his pay every month</strong> to go to his mother. He was earning about $1.10 a day.</p>
+    </div>
+    <figure class="doc">
+      <img src="img/attestation.jpg" alt="Fred Aiken's attestation paper, dated December 21, 1915, with his signature" loading="lazy">
+      <figcaption>His attestation paper, with his signature.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">August 1916</div>
+      <h2>Across the Atlantic on the Olympic</h2>
+      <p>On August 22, 1916, the 135th sailed from Halifax aboard the SS <em>Olympic</em>, the sister ship of the <em>Titanic</em>, and reached England on August 30.</p>
+      <p>That October Fred was transferred to the 134th Battalion (48th Highlanders) and spent sixteen months training at Witley and Bramshott camps. The 134th belonged to the 5th Canadian Division, which was held in England and never sent to the front.</p>
+      <p>Somewhere in those months he qualified as a <strong>signaller</strong>.</p>
+    </div>
+    <figure class="doc">
+      <img src="img/olympic-card.jpg" alt="Army record card noting 'Sailed from Halifax per S.S. Olympic 22-8-16'" loading="lazy">
+      <figcaption>His record card: “Sailed from Halifax per S.S. Olympic 22-8-16.”</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="s5">
+  <div class="wrap split narrow-img">
+    <div>
+      <div class="eyebrow">March 1918</div>
+      <h2>To France, to the 4th Battalion</h2>
+      <p>In February 1918 the 5th Division was broken up to reinforce the Canadian Corps. Fred left Witley on February 28, landed in France, and in early March joined the <strong>4th Canadian Infantry Battalion</strong> “in the field”. The 4th was part of the 1st Brigade, 1st Canadian Division.</p>
+      <p>Battalion signallers kept the front line talking to headquarters. They laid and mended telephone wire, often under shellfire, and passed messages by lamp, flag and runner.</p>
+      <p class="muted">He served with the 4th for thirteen months, by his own count.</p>
+    </div>
+    <figure class="doc">
+      <img src="img/casualty-form.jpg" alt="Casualty Form – Active Service, showing qualification 'Signaller' and his arrival in France" loading="lazy">
+      <figcaption>His service record. “Qualification: Signaller.”</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="s6">
+  <div class="wrap">
+    <div class="eyebrow">August to November 1918</div>
+    <h2>The Hundred Days</h2>
+    <p>The file proves where Fred was. The battalion’s history tells us what he most likely saw there. Each line below is marked one or the other.</p>
+    <ol class="line" style="margin-top:26px">
+      <li><span class="when">March – July</span><span class="what"><span class="tag likely">Likely</span>Trench duty on the Vimy, Lens and Arras front while the German spring offensives struck to the south.</span></li>
+      <li class="key"><span class="when">August 8 · Amiens</span><span class="what"><span class="tag likely">Likely</span>The 4th Battalion advanced along the Luce river and cleared the village of Cayeux on the opening day of the offensive that ended the war. His record shows him with the battalion, with no absence.</span></li>
+      <li class="key"><span class="when">September 2 · Drocourt-Quéant Line</span><span class="what"><span class="tag likely">Likely</span>The 1st Division broke one of the strongest German defence lines on the Western Front.</span></li>
+      <li><span class="when">September 7 – 27</span><span class="what"><span class="tag fact">Fact</span>Treated for conjunctivitis at No. 14 Canadian Field Ambulance. It is the only casualty entry in his file.</span></li>
+      <li class="key"><span class="when">September 29 · North of Cambrai</span><span class="what"><span class="tag fact">Fact</span>Rejoined the battalion. <span class="tag likely" style="margin-left:6px">Likely</span>He returned during some of the division’s hardest fighting. On October 1, near Abancourt, Sgt. William Merrifield of the 4th earned the Victoria Cross.</span></li>
+      <li><span class="when">November 11</span><span class="what"><span class="tag fact">Fact</span>Still serving with the 4th Battalion when the guns stopped.</span></li>
+      <li><span class="when">December</span><span class="what"><span class="tag likely">Likely</span>Marched into Germany with the 1st Division as part of the army of occupation, then back to Belgium in January.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="s7">
+  <div class="wrap split narrow-img">
+    <div>
+      <div class="eyebrow">Spring 1919</div>
+      <h2>Home</h2>
+      <p>Fred left France on March 22, 1919, and was examined at Bramshott. The doctor wrote: <em>“no disability.”</em> He had gone through the last year of the war without a wound.</p>
+      <p>In April he sailed from Southampton, once again on the <em>Olympic</em>. He was discharged in Toronto on <strong>April 24, 1919</strong>, by reason of demobilization, and went home to his family on Dundas Street West.</p>
+      <p class="muted">He was awarded a Good Conduct Badge and received a war service gratuity of $420.</p>
+    </div>
+    <figure class="doc">
+      <img src="img/discharge.jpg" alt="Canadian Expeditionary Force discharge certificate for George Frederick Aiken, dated April 24, 1919" loading="lazy">
+      <figcaption>His discharge certificate, signed “G F Aiken.”</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="s8">
+  <div class="wrap">
+    <div class="eyebrow">What the papers say about the man</div>
+    <h2>Three years, four months</h2>
+    <div class="cards">
+      <div class="card"><b>$640</b><span>Sent home to his mother, $20 at a time, every month from September 1916 until he was back.</span></div>
+      <div class="card"><b>13 months</b><span>At the front with the 4th Battalion, after 10 months with the 135th and 16 with the 134th.</span></div>
+      <div class="card"><b>0 wounds</b><span>One entry for an eye infection. A clean conduct record and a Good Conduct Badge.</span></div>
+      <div class="card"><b>135 → 160 lbs</b><span>He left a slim 21-year-old and came back a solid 25-year-old, an inch taller.</span></div>
+      <div class="card"><b>Twice</b><span>He crossed the Atlantic on the <em>Olympic</em>, out in 1916 and home in 1919.</span></div>
+      <div class="card"><b>46</b><span>His resting pulse at discharge. The army doctor rated his health “good.”</span></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="map-journey">
+  <div class="wrap">
+    <div class="eyebrow">Map 1 of 2</div>
+    <h2>From Ontario to the Rhine and back</h2>
+    <p>Roughly 6,000 kilometres each way. Tap a marker for what happened there.</p>
+    <div id="mapA" class="map" role="img" aria-label="Map of Fred Aiken's journey from Ontario to England, France and Germany"></div>
+    <div class="legend"><span><i style="background:#7fa37a"></i>Recorded in his file</span><span><i style="background:#c9a04e"></i>Likely, from his battalion’s movements</span></div>
+  </div>
+</section>
+
+<section id="map-front">
+  <div class="wrap">
+    <div class="eyebrow">Map 2 of 2</div>
+    <h2>The Western Front, 1918</h2>
+    <p>The ground the 4th Battalion covered while Fred was on its strength, from the Vimy front to Amiens, back to Arras, and east toward Cambrai and Mons.</p>
+    <div id="mapB" class="map" role="img" aria-label="Map of northern France and Belgium showing the 4th Battalion's 1918 battles"></div>
+    <div class="legend"><span><i style="background:#c0392b"></i>Battle, battalion present</span><span><i style="background:#7fa37a"></i>Recorded in his file</span><span><i style="background:#c9a04e"></i>Likely location</span><span><i style="background:#8d8676"></i>Reference town</span></div>
+  </div>
+</section>
+
+<section id="context">
+  <div class="wrap">
+    <div class="eyebrow">The wider war</div>
+    <h2>What was happening around him</h2>
+    <div class="two">
+      <ul class="ctx">
+        <li><span class="d">Apr 9, 1917</span><span>Canadians take Vimy Ridge.<span class="h">Fred is training in England with the 134th.</span></span></li>
+        <li><span class="d">Oct–Nov 1917</span><span>Passchendaele.<span class="h">The 4th Battalion fights there, months before he joins it.</span></span></li>
+        <li><span class="d">Dec 6, 1917</span><span>The Halifax Explosion kills nearly 2,000 people.<span class="h">It is the port he sailed from sixteen months earlier.</span></span></li>
+        <li><span class="d">Mar 21, 1918</span><span>Germany launches its Spring Offensive and breaks the British line.<span class="h">Fred has been at the front for under three weeks.</span></span></li>
+        <li><span class="d">Apr 21, 1918</span><span>The “Red Baron,” Manfred von Richthofen, is shot down over the Somme.</span></li>
+        <li><span class="d">May 12, 1918</span><span>The <em>Olympic</em> rams and sinks the German submarine U-103.<span class="h">The same ship that carried him over and would carry him home.</span></span></li>
+        <li><span class="d">Jun 27, 1918</span><span>The Canadian hospital ship <em>Llandovery Castle</em> is torpedoed; 234 die.<span class="h">“Remember the Llandovery Castle” becomes a Canadian rallying cry at Amiens.</span></span></li>
+      </ul>
+      <ul class="ctx">
+        <li><span class="d">Aug 8, 1918</span><span>Amiens. General Ludendorff calls it “the black day of the German Army.”<span class="h">Fred’s battalion is in the attack.</span></span></li>
+        <li><span class="d">Sept 2, 1918</span><span>The Drocourt-Quéant Line falls; seven Canadians earn the Victoria Cross in one day.</span></li>
+        <li><span class="d">Autumn 1918</span><span>The Spanish influenza pandemic sweeps armies and home fronts.<span class="h">Some 50,000 Canadians die of it.</span></span></li>
+        <li><span class="d">Oct 9, 1918</span><span>Canadians enter Cambrai.</span></li>
+        <li><span class="d">Nov 11, 1918</span><span>Armistice at 11 a.m. Canadians are in Mons.<span class="h">Pte. George Price is killed at 10:58, the last Commonwealth soldier to fall.</span></span></li>
+        <li><span class="d">Dec 1918</span><span>Canadian troops cross the Rhine as an army of occupation.</span></li>
+        <li><span class="d">Jun 28, 1919</span><span>The Treaty of Versailles is signed.<span class="h">Fred has been home for two months.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="wrap">
+    <div class="eyebrow">By the numbers</div>
+    <h2>The scale of what he was part of</h2>
+    <p>Canada’s Hundred Days, August 8 to November 11, 1918. Fred’s battalion was one of 48 infantry battalions in the Canadian Corps.</p>
+    <div class="cards four">
+      <div class="card"><b>100,000+</b><span>Canadians in the Corps for the final offensive.</span></div>
+      <div class="card"><b>130 km</b><span>Advanced in three months, after years measured in metres.</span></div>
+      <div class="card"><b>32,000</b><span>German prisoners taken by the Canadians.</span></div>
+      <div class="card"><b>45,800</b><span>Canadian casualties, more than 6,800 of them killed.</span></div>
+      <div class="card"><b>20 km</b><span>Gained at Amiens in three days. More than 9,000 prisoners and 27 villages freed within two weeks.</span></div>
+      <div class="card"><b>6,000</b><span>Prisoners taken at the Drocourt-Quéant Line on September 2–3.</span></div>
+      <div class="card"><b>1,000+</b><span>Casualties in Fred’s own 1st Division at the Canal du Nord, while he was in the field ambulance.</span></div>
+      <div class="card"><b>66,000</b><span>Canadians and Newfoundlanders who died in the war, of more than 650,000 who served.</span></div>
+    </div>
+    <p class="src">Figures from Veterans Affairs Canada, “The Last Hundred Days,” and its First World War summaries. They describe the Canadian Corps as a whole, not Fred’s battalion alone.</p>
+  </div>
+</section>
+
+<section id="s9">
+  <div class="wrap">
+    <div class="eyebrow">Service record</div>
+    <h2>His war, by the dates</h2>
+    <table>
+      <tr><td>Feb 10, 1894</td><td>Born in St. Thomas, Elgin County, Ontario</td></tr>
+      <tr><td>Dec 21, 1915</td><td>Enlisted at London, Ontario, 135th (Middlesex) Battalion</td></tr>
+      <tr><td>Aug 22, 1916</td><td>Sailed from Halifax on the SS <em>Olympic</em></td></tr>
+      <tr><td>Aug 30, 1916</td><td>Arrived in England</td></tr>
+      <tr><td>Oct 15, 1916</td><td>Transferred to the 134th Battalion, Witley and Bramshott</td></tr>
+      <tr><td>Feb 28, 1918</td><td>Proceeded overseas to France for the 4th Battalion</td></tr>
+      <tr><td>March 1918</td><td>Joined the 4th Canadian Infantry Battalion in the field</td></tr>
+      <tr><td>Sept 7, 1918</td><td>Admitted to No. 14 Canadian Field Ambulance, conjunctivitis</td></tr>
+      <tr><td>Sept 29, 1918</td><td>Rejoined the battalion</td></tr>
+      <tr><td>Nov 11, 1918</td><td>Armistice</td></tr>
+      <tr><td>Mar 22, 1919</td><td>Proceeded to England</td></tr>
+      <tr><td>April 1919</td><td>Sailed for Canada on the <em>Olympic</em></td></tr>
+      <tr><td>Apr 24, 1919</td><td>Discharged at Toronto, demobilization</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="after">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">After the war</div>
+      <h2>The years that followed</h2>
+      <p>The army’s paperwork follows Fred for a few months after discharge. In April 1919 he went home to 1621 Dundas Street West in Toronto, near his mother, who had moved from London to West Toronto during the war. By September 1919 his last gratuity cheques were going to 116 Rose Avenue, Toronto.</p>
+      <p>After that the official record goes quiet, and the family’s memory takes over: Fred settled in Chatham, Ontario, and lived there into his eighties.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">This chapter is still being written</div>
+      <p style="margin-bottom:10px">His marriage, his children and his working life after the war are not in the service file, and they have not yet been traced in public records.</p>
+      <p class="muted" style="margin:0">If you are family and can add names, dates, photographs or stories, they belong here.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s10" class="closing">
+  <div class="wrap">
+    <div class="eyebrow"><span class="poppy"></span>Lest we forget</div>
+    <p class="verse">At the going down of the sun and in the morning<br>We will remember them.</p>
+    <div class="rule" style="margin-left:auto;margin-right:auto"></div>
+    <p>Fred came home, raised a family, and is remembered by them as living into his eighties in Chatham, Ontario.</p>
+    <p class="muted" style="font-size:.9rem;margin-top:34px">Sources: Library and Archives Canada, Personnel Records of the First World War, <a href="https://recherche-collection-search.bac-lac.gc.ca/eng/home/record?IdNumber=2777&app=pffww">AIKEN, George Frederick, No. 802391</a> (RG 150, Accession 1992-93/166, Box 53-20). Battalion movements from published histories of the 4th Battalion and 1st Canadian Division. Statistics from Veterans Affairs Canada. Entries marked “Likely” are inferred from the battalion’s record, not stated in his file. Portrait from the family’s collection.</p>
+    <p class="muted" style="font-size:.9rem">Compiled by his great-grandson on Remembrance Day, November 11, 2026.</p>
+  </div>
+</section>
+
+<nav class="dots" aria-label="Slides"></nav>
+<div class="hint" id="hint">Scroll or use ↓</div>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('section')),nav=document.querySelector('.dots'),hint=document.getElementById('hint'),cur=0;
+  secs.forEach(function(s,i){var a=document.createElement('a');a.href='#'+s.id;a.setAttribute('aria-label','Slide '+(i+1));nav.appendChild(a);});
+  var dots=nav.querySelectorAll('a');
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){cur=secs.indexOf(e.target);dots.forEach(function(d,i){d.classList.toggle('on',i===cur);});if(cur>0)hint.style.opacity=0;}});},{threshold:.5});
+  secs.forEach(function(s){io.observe(s);});
+  document.addEventListener('keydown',function(e){
+    var k=e.key,d=(k==='ArrowDown'||k==='PageDown'||k==='ArrowRight'||k===' ')?1:(k==='ArrowUp'||k==='PageUp'||k==='ArrowLeft')?-1:0;
+    if(!d)return;e.preventDefault();
+    var n=Math.max(0,Math.min(secs.length-1,cur+d));secs[n].scrollIntoView({behavior:'smooth'});
+  });
+})();
+</script>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+(function(){
+  if(!window.L)return;
+  var C={fact:'#7fa37a',likely:'#c9a04e',battle:'#c0392b',ref:'#8d8676'};
+  var tiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  var attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
+  function mk(id){var m=L.map(id,{scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false});L.tileLayer(tiles,{attribution:attr,maxZoom:12,subdomains:'abcd'}).addTo(m);return m;}
+  function pt(m,p){var r=p.k==='ref'?4:7;var c=L.circleMarker([p.lat,p.lng],{radius:r,color:'#14120f',weight:2,fillColor:C[p.k],fillOpacity:1}).addTo(m);
+    if(p.t)c.bindPopup('<small>'+p.w+'</small><b>'+p.n+'</b>'+p.t);
+    c.bindTooltip(p.n,{permanent:!(p.hideSmall&&window.innerWidth<700),direction:p.dir||'right',offset:p.dir==='left'?[-9,0]:p.dir==='top'?[0,-9]:p.dir==='bottom'?[0,9]:[9,0],className:'lbl'});return c;}
+
+  var A=[
+   {hideSmall:1,n:'St. Thomas',lat:42.779,lng:-81.193,k:'fact',w:'Feb 10, 1894',t:'Born here, in Elgin County.',dir:'bottom'},
+   {hideSmall:1,n:'London, Ont.',lat:42.984,lng:-81.246,k:'fact',w:'Dec 21, 1915',t:'Enlisted in the 135th (Middlesex) Battalion.',dir:'top'},
+   {n:'Halifax',lat:44.649,lng:-63.575,k:'fact',w:'Aug 22, 1916',t:'Sailed for England on the SS Olympic.',dir:'top'},
+   {hideSmall:1,n:'Liverpool',lat:53.408,lng:-2.992,k:'fact',w:'Aug 30, 1916',t:'Landed in England.',dir:'left'},
+   {n:'Witley & Bramshott',lat:51.12,lng:-0.74,k:'fact',w:'Oct 1916 – Feb 1918',t:'Sixteen months of training with the 134th Battalion, 5th Canadian Division.',dir:'left'},
+   {hideSmall:1,n:'Western Front',lat:50.29,lng:2.78,k:'fact',w:'Mar 1918 – Mar 1919',t:'Thirteen months with the 4th Battalion. See the next map.',dir:'bottom'},
+   {n:'Cologne',lat:50.938,lng:6.96,k:'likely',w:'December 1918',t:'The 1st Canadian Division crossed the Rhine here on occupation duty.',dir:'right'},
+   {hideSmall:1,n:'Southampton',lat:50.909,lng:-1.404,k:'fact',w:'April 1919',t:'Sailed home, again on the Olympic.',dir:'bottom'},
+   {hideSmall:1,n:'Toronto',lat:43.653,lng:-79.383,k:'fact',w:'Apr 24, 1919',t:'Discharged. His family was now on Dundas Street West.',dir:'top'},
+   {hideSmall:1,n:'Chatham',lat:42.405,lng:-82.191,k:'likely',w:'Later life',t:'Where the family remembers him living into his eighties.',dir:'left'}
+  ];
+  var a=mk('mapA');A.forEach(function(p){pt(a,p);});
+  var out=[[42.984,-81.246],[44.649,-63.575],[50.5,-25],[53.408,-2.992],[51.12,-0.74],[50.29,2.78],[50.938,6.96]];
+  var back=[[50.938,6.96],[50.29,2.78],[50.909,-1.404],[47.5,-28],[44.649,-63.575],[43.653,-79.383]];
+  L.polyline(out,{color:'#b5a06a',weight:2,opacity:.8}).addTo(a);
+  L.polyline(back,{color:'#b5a06a',weight:2,opacity:.6,dashArray:'6 6'}).addTo(a);
+  a.fitBounds([[40.5,-84],[56,9]],{padding:[10,10]});
+
+  var B=[
+   {n:'Étaples',lat:50.513,lng:1.641,k:'likely',w:'Feb 28, 1918',t:'His file records arrival at the Canadian Infantry Base Depot, which was at Étaples.',dir:'top'},
+   {n:'Vimy – Lens front',lat:50.40,lng:2.80,k:'likely',w:'March – July 1918',t:'The Canadian Corps held this sector through the German spring offensives.',dir:'top'},
+   {n:'Arras',lat:50.291,lng:2.777,k:'ref',dir:'left'},
+   {n:'Amiens',lat:49.894,lng:2.296,k:'ref',dir:'left'},
+   {n:'Cayeux',lat:49.817,lng:2.60,k:'battle',w:'Aug 8, 1918 · Amiens',t:'The 4th Battalion advanced along the Luce river bed and cleared this village.',dir:'bottom'},
+   {n:'Drocourt-Quéant Line',lat:50.228,lng:3.003,k:'battle',w:'Sept 2, 1918',t:'The 1st and 4th Canadian Divisions stormed the line near Dury and Cagnicourt.',dir:'left'},
+   {n:'Canal du Nord',lat:50.192,lng:3.07,k:'battle',w:'Sept 27, 1918',t:'The Corps crossed on a dry stretch near Sains-lès-Marquion. Fred was discharged from the field ambulance this same day and missed the crossing.',dir:'bottom'},
+   {n:'Abancourt',lat:50.235,lng:3.21,k:'battle',w:'Sept 29 – Oct 1, 1918',t:'Fred rejoined on Sept 29. Here on Oct 1, Sgt. William Merrifield of the 4th earned the Victoria Cross.',dir:'top'},
+   {n:'Cambrai',lat:50.176,lng:3.235,k:'ref',dir:'right'},
+   {n:'Valenciennes',lat:50.357,lng:3.523,k:'ref',dir:'top'},
+   {n:'Mons',lat:50.454,lng:3.952,k:'ref',dir:'right'}
+  ];
+  var b=mk('mapB');B.forEach(function(p){pt(b,p);});
+  L.polyline([[50.40,2.80],[49.817,2.60],[50.228,3.003],[50.192,3.07],[50.235,3.21]],{color:'#c0392b',weight:2,opacity:.7,dashArray:'4 6'}).addTo(b);
+  b.fitBounds([[49.75,1.9],[50.55,4.0]],{padding:[10,10]});
+  window.addEventListener('load',function(){a.invalidateSize();b.invalidateSize();});
+})();
+</script>
+</body>
+</html>
